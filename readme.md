@@ -10,6 +10,8 @@ The Favourites sub-menu can be changed in the source file, just add your desired
 
 Feel free to suggest any additional symbols to the current set!
 
+Installation to Anki with code - *1461102936*
+
 ***
 
 Lots of inspiration from https://github.com/paladini/anki-greek-letters
