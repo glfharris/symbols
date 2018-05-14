@@ -8,6 +8,8 @@ The menu can also be triggered by Ctrl+S.
 
 The Favourites sub-menu can be changed in the source file, just add your desired symbols' decimal unicode id to the list.
 
+Feel free to suggest any additional symbols to the current set!
+
 ***
 
 Lots of inspiration from https://github.com/paladini/anki-greek-letters
