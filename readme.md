@@ -12,7 +12,7 @@ Favourties menu can be edited in the Anki Config via Tools > Add-Ons > Config
 
 ![](anki-symbols-config-21.png)
 
-Just add the symbols you want to the "favvourites" key and they will appear. Whole Char Sets can be added in a similar fashion, just keep to the current Schema.
+Just add the symbols you want to the "favourites" key and they will appear. Whole Char Sets can be added in a similar fashion, just keep to the current Schema.
 
 Feel free to suggest any additional symbols to the current set, and we can share them with everyone!
 
