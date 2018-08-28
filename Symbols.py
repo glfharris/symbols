@@ -26,11 +26,13 @@ def onAnkiSymbols(self):
     favourites = QMenu("Favourites", self.mw)
     greek = QMenu("Greek letters", self.mw)
     arrows = QMenu("Arrows", self.mw)
+    math = QMenu("Maths", self.mw)
 
     # Adding submenus to main menu
     main.addMenu(favourites)
     main.addMenu(greek)
     main.addMenu(arrows)
+    main.addMenu(math)
 
     # Adding symbols to sub menus
     # Greek Letters 913 - 974
@@ -47,6 +49,12 @@ def onAnkiSymbols(self):
     for f in faves:
         a = favourites.addAction(unichr(f))
         a.connect(a, SIGNAL("triggered()"), onAddAnkiSymbol_factory(self, f))
+
+    # Maths
+    for math in [8800, 8776, 8804, 8805, 8733, 8734]:
+        a = arrows.addAction(unichr(math))
+        a.connect(a, SIGNAL("triggered()"), onAddAnkiSymbol_factory(self, math))
+    
     main.exec_(QCursor.pos())
 
 def mySetupButtons(self):
