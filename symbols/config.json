@@ -1,0 +1,12 @@
+{
+    "last_used": "a",
+    "favourites": "αβγ",
+    "char_sets": {
+        "Arrows": "→↓↑←",
+        "Greek Lower": "αβγδεζηθικλμνξοπρστυφχψω",
+        "Greek Upper": "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ",
+        "Maths Basic": "+−±∓×⋅÷√∑∫∮∝∞■",
+        "Maths Equality": "=≠≈~≡",
+        "Maths Equivalence": "<>≪≫≤≥"
+    }
+}

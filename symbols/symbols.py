@@ -1,65 +1,52 @@
-from anki.hooks import wrap
-from aqt.editor import Editor, EditorWebView
+from aqt import mw
 from aqt.qt import *
-from aqt.utils import shortcut, showInfo, showWarning, getBase, getFile, \
-    openHelp, tooltip, downArrow
-from BeautifulSoup import BeautifulSoup
+from aqt.editor import Editor
+from anki.hooks import addHook, wrap
 
-# This is the favourites list - Add desired symbols' decimal values here
-faves = [8592, 8593, 8594, 8595]
 
-def onAddAnkiSymbol(self, entity_number):
-    my_entity = "&#" + str(entity_number) + ";"
-    self.note.fields[self.currentField] += unicode(BeautifulSoup(my_entity))
-    self.loadNote()
-    self.web.setFocus()
-    self.web.eval("focusField(%d);" % self.currentField)
+config = mw.addonManager.getConfig(__name__)
 
-def onAddAnkiSymbol_factory(self, entity_number):
-    return lambda s=self: onAddAnkiSymbol(self, entity_number)
+def onSymbolButton(editor):
+    main = QMenu(mw)
 
-def onAnkiSymbols(self):
+    last = main.addAction("Last Used: %s" % config["last_used"])
+    last.triggered.connect(symbolFactory(editor, config["last_used"]))
 
-    # Creating menus
-    main = QMenu(self.mw)
+    faves = QMenu("Faves", mw)
+    main.addMenu(faves)
 
-    favourites = QMenu("Favourites", self.mw)
-    greek = QMenu("Greek letters", self.mw)
-    arrows = QMenu("Arrows", self.mw)
-    maths = QMenu("Maths", self.mw)
+    faves_list = list(config['favourites'])
+    char_sets = config["char_sets"]
 
-    # Adding submenus to main menu
-    main.addMenu(favourites)
-    main.addMenu(greek)
-    main.addMenu(arrows)
-    main.addMenu(maths)
+    for char in faves_list:
+        a = faves.addAction(char)
+        a.triggered.connect(symbolFactory(editor, char))
 
-    # Adding symbols to sub menus
-    # Greek Letters 913 - 974
-    for greek_letter in range(913, 975):
-        a = greek.addAction(unichr(greek_letter))
-        a.connect(a, SIGNAL("triggered()"), onAddAnkiSymbol_factory(self, greek_letter))
+    for k,v in char_sets.items():
+        tmp_menu = QMenu(k, mw)
+        main.addMenu(tmp_menu)
 
-    # Arrows 8592 - 8703
-    for arrow in range(8592, 8704):
-        a = arrows.addAction(unichr(arrow))
-        a.connect(a, SIGNAL("triggered()"), onAddAnkiSymbol_factory(self, arrow))
+        chars = list(v)
 
-    # Add favourites to menu
-    for f in faves:
-        a = favourites.addAction(unichr(f))
-        a.connect(a, SIGNAL("triggered()"), onAddAnkiSymbol_factory(self, f))
+        for char in chars:
+            a = tmp_menu.addAction(char)
+            a.triggered.connect(symbolFactory(editor, char))
 
-    # Maths
-    for math in [8800, 8776, 8804, 8805, 8733, 8734]:
-        a = maths.addAction(unichr(math))
-        a.connect(a, SIGNAL("triggered()"), onAddAnkiSymbol_factory(self, math))
-    
     main.exec_(QCursor.pos())
 
-def mySetupButtons(self):
-    but = self._addButton("symbolButton", lambda s=self: onAnkiSymbols(self),
-                    text=unichr(945) + unichr(946) + unichr(947) + downArrow(), size=False)
-    but.setShortcut(QKeySequence("Ctrl+S"))
+def symbolFactory(editor, symbol):
+    return lambda s=editor: add_char(editor, symbol)
 
-Editor.setupButtons = wrap(Editor.setupButtons, mySetupButtons)
+def add_char(editor, x):
+    config["last_used"] = x
+    mw.addonManager.writeConfig(__name__, config)
+    editor.web.eval("wrap('%s', '');" % x)
+
+def buttonSetup(buttons, editor):
+    b = editor.addButton('', 'Sym', lambda s=editor: onSymbolButton(editor), keys='ctrl+s')
+    buttons.append(b)
+
+    return buttons
+
+addHook("setupEditorButtons", buttonSetup)
+
