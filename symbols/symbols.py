@@ -12,7 +12,7 @@ def onSymbolButton(editor):
     last = main.addAction("Last Used: %s" % config["last_used"])
     last.triggered.connect(symbolFactory(editor, config["last_used"]))
 
-    faves = QMenu("Faves", mw)
+    faves = QMenu("Favourites", mw)
     main.addMenu(faves)
 
     faves_list = list(config['favourites'])
