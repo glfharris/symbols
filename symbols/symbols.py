@@ -6,11 +6,12 @@ from anki.hooks import addHook, wrap
 
 config = mw.addonManager.getConfig(__name__)
 
-def onSymbolButton(editor):
+
+def onSymbolButton(self):
     main = QMenu(mw)
 
     last = main.addAction("Last Used: %s" % config["last_used"])
-    last.triggered.connect(symbolFactory(editor, config["last_used"]))
+    last.triggered.connect(symbolFactory(self, config["last_used"]))
 
     faves = QMenu("Favourites", mw)
     main.addMenu(faves)
@@ -20,9 +21,9 @@ def onSymbolButton(editor):
 
     for char in faves_list:
         a = faves.addAction(char)
-        a.triggered.connect(symbolFactory(editor, char))
+        a.triggered.connect(symbolFactory(self, char))
 
-    for k,v in char_sets.items():
+    for k, v in char_sets.items():
         tmp_menu = QMenu(k, mw)
         main.addMenu(tmp_menu)
 
@@ -30,23 +31,27 @@ def onSymbolButton(editor):
 
         for char in chars:
             a = tmp_menu.addAction(char)
-            a.triggered.connect(symbolFactory(editor, char))
+            a.triggered.connect(symbolFactory(self, char))
 
     main.exec_(QCursor.pos())
 
+
 def symbolFactory(editor, symbol):
-    return lambda s=editor: add_char(editor, symbol)
+    return lambda: add_char(editor, symbol)
 
-def add_char(editor, x):
-    config["last_used"] = x
+
+def add_char(editor, char):
+    config["last_used"] = char
     mw.addonManager.writeConfig(__name__, config)
-    editor.web.eval("wrap('%s', '');" % x)
+    editor.web.eval("wrap('%s', '');" % char)
 
-def buttonSetup(buttons, editor):
-    b = editor.addButton('', 'Sym', lambda s=editor: onSymbolButton(editor), keys='ctrl+s')
+
+def setupButtons(buttons, editor):
+    b = editor.addButton(
+        None, 'Sym', onSymbolButton, tip="Inserts Symbols at Cursor (ctrl+s)", keys='ctrl+s')
     buttons.append(b)
 
     return buttons
 
-addHook("setupEditorButtons", buttonSetup)
 
+addHook("setupEditorButtons", setupButtons)
