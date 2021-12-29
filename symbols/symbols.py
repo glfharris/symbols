@@ -1,22 +1,26 @@
-from aqt import mw
-from aqt.qt import *
-from aqt.editor import Editor
-from anki.hooks import addHook, wrap
+import json
 
+from anki import version as anki_version
+from anki.hooks import addHook
+from aqt import mw
+from aqt.editor import Editor
+from aqt.qt import *
 
 config = mw.addonManager.getConfig(__name__)
+
+ANKI_VERSION_TUPLE = tuple(int(i) for i in anki_version.split("."))
 
 
 def onSymbolButton(self):
     main = QMenu(mw)
 
-    last = main.addAction("Last Used: %s" % config["last_used"])
+    last = main.addAction(f"Last Used: {config['last_used']}")
     last.triggered.connect(symbolFactory(self, config["last_used"]))
 
     faves = QMenu("Favourites", mw)
     main.addMenu(faves)
 
-    faves_list = list(config['favourites'])
+    faves_list = list(config["favourites"])
     char_sets = config["char_sets"]
 
     for char in faves_list:
@@ -33,22 +37,30 @@ def onSymbolButton(self):
             a = tmp_menu.addAction(char)
             a.triggered.connect(symbolFactory(self, char))
 
-    main.exec_(QCursor.pos())
+    main.exec(QCursor.pos())
 
 
 def symbolFactory(editor, symbol):
     return lambda: add_char(editor, symbol)
 
 
-def add_char(editor, char):
+def add_char(editor: Editor, char):
     config["last_used"] = char
     mw.addonManager.writeConfig(__name__, config)
-    editor.web.eval("wrap('%s', '');" % char)
+    editor.web.eval(f"pasteHTML({json.dumps(char)}, true, false);")
 
 
-def setupButtons(buttons, editor):
+def setupButtons(buttons, editor: Editor):
     b = editor.addButton(
-        None, 'Sym', onSymbolButton, tip="Inserts Symbols at Cursor (ctrl+s)", keys='ctrl+s')
+        None,
+        "Sym",
+        onSymbolButton,
+        tip="Inserts Symbols at Cursor (ctrl+s)",
+        keys="ctrl+s",
+        rightside=ANKI_VERSION_TUPLE < (2, 1, 50),
+    )
+    # the rightside version of the button doesn't fit the text on Anki > 2.1.50 so it's better to use rightside=false there
+
     buttons.append(b)
 
     return buttons
