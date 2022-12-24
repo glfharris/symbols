@@ -8,12 +8,12 @@ config = mw.addonManager.getConfig(__name__)
 
 
 def onSymbolButton(self):
-    main = QMenu(mw)
+    main = QMenu(self.widget)
 
     last = main.addAction("Last Used: %s" % config["last_used"])
     last.triggered.connect(symbolFactory(self, config["last_used"]))
 
-    faves = QMenu("Favourites", mw)
+    faves = QMenu("Favourites", self.widget)
     main.addMenu(faves)
 
     faves_list = list(config['favourites'])
@@ -24,7 +24,7 @@ def onSymbolButton(self):
         a.triggered.connect(symbolFactory(self, char))
 
     for k, v in char_sets.items():
-        tmp_menu = QMenu(k, mw)
+        tmp_menu = QMenu(k, self.widget)
         main.addMenu(tmp_menu)
 
         chars = list(v)
