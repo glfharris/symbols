@@ -1,6 +1,6 @@
 # Anki Symbols
 
-Anki Symbols, now with added Symbols!
+Anki Symbols, now with added Symbols! Now also updated to 23.10!
 
 ![](anki-symbols-21.png)
 
