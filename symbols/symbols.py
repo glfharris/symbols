@@ -33,7 +33,7 @@ def onSymbolButton(self):
             a = tmp_menu.addAction(char)
             a.triggered.connect(symbolFactory(self, char))
 
-    main.exec_(QCursor.pos())
+    main.exec(QCursor.pos())
 
 
 def symbolFactory(editor, symbol):
@@ -47,8 +47,9 @@ def add_char(editor, char):
 
 
 def setupButtons(buttons, editor):
+    short_cut = config.get("short_cut", "ctrl+s")
     b = editor.addButton(
-        None, 'Sym', onSymbolButton, tip="Inserts Symbols at Cursor (ctrl+s)", keys='ctrl+s')
+        None, 'Sym', onSymbolButton, tip="Inserts Symbols at Cursor (%s)" % short_cut, keys=short_cut)
     buttons.append(b)
 
     return buttons
