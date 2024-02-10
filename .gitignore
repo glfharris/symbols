@@ -1,2 +1,6 @@
 .vscode
 *.zip
+
+profile
+__pycache__
+meta.json
