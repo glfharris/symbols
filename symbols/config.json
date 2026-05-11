@@ -1,14 +1,17 @@
 {
     "short_cut": "ctrl+s",
-    "last_used": "a",
+    "last_used": "α",
     "favourites": "αβγ",
     "char_sets": {
         "Arrows": "←↑↓→⇇⇈⇊⇉⇅⇄⇌",
         "Greek Lower": "αβγδεζηθικλμνξοπρστυφχψω",
         "Greek Upper": "ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ",
-        "Maths Basic": "+−±∓×⋅÷√∑∫∮∝∞■",
-        "Maths Equality": "=≠≈~≡",
-        "Maths Equivalence": "<>≪≫≤≥",
+        "Maths Basic": "+−±∓×⋅÷√∑∫∮∝∞∎",
+        "Maths Relations": "=≠≈∼≡<>≪≫≤≥",
+        "Maths Logic": "∧∨¬⊕∀∃∄⊢⊨⊤⊥",
+        "Maths Sets": "∈∉⊂⊃⊆⊇∪∩∅ℕℤℚℝℂ",
+        "Superscript": "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ",
+        "Subscript": "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎",
         "Misc": "✓✗°℃℉℞☹☺☠☢☣♀♂⚕"
     }
 }
