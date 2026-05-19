@@ -4,16 +4,18 @@ from aqt import gui_hooks, mw
 from aqt.qt import QMenu, QCursor
 from aqt.editor import Editor
 
+from . import config_dialog
 
-def onSymbolButton(self):
+
+def onSymbolButton(editor):
     config = mw.addonManager.getConfig(__name__)
 
-    main = QMenu(self.parentWindow)
+    main = QMenu(editor.parentWindow)
 
     last = main.addAction(f"Last Used: {config['last_used']}")
-    last.triggered.connect(symbolFactory(self, config["last_used"], config))
+    last.triggered.connect(symbolFactory(editor, config["last_used"], config))
 
-    faves = QMenu("Favourites", self.parentWindow)
+    faves = QMenu("Favourites", editor.parentWindow)
     main.addMenu(faves)
 
     faves_list = list(config["favourites"])
@@ -21,17 +23,17 @@ def onSymbolButton(self):
 
     for char in faves_list:
         a = faves.addAction(char)
-        a.triggered.connect(symbolFactory(self, char, config))
+        a.triggered.connect(symbolFactory(editor, char, config))
 
     for k, v in char_sets.items():
-        tmp_menu = QMenu(k, self.parentWindow)
+        tmp_menu = QMenu(k, editor.parentWindow)
         main.addMenu(tmp_menu)
 
         chars = list(v)
 
         for char in chars:
             a = tmp_menu.addAction(char)
-            a.triggered.connect(symbolFactory(self, char, config))
+            a.triggered.connect(symbolFactory(editor, char, config))
 
     main.exec(QCursor.pos())
 
@@ -59,3 +61,4 @@ def setupButtons(buttons, editor: Editor):
 
 
 gui_hooks.editor_did_init_buttons.append(setupButtons)
+mw.addonManager.setConfigAction(__name__, config_dialog.show_config_dialog)
