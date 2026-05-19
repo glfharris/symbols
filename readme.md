@@ -2,7 +2,7 @@
 
 Anki Symbols, now with added Symbols! Now also updated to 23.10!
 
-![](anki-symbols-21.png)
+![](symbols_example.jpg)
 
 The menu can also be triggered by Ctrl+S.
 
@@ -10,7 +10,7 @@ Revamped the whole addon to tackle Anki 2.1, as well as added more symbols and c
 
 Favourties menu can be edited in the Anki Config via Tools > Add-Ons > Config
 
-![](anki-symbols-config-21.png)
+![](symbols_settings.jpg)
 
 Just add the symbols you want to the "favourites" key and they will appear. Whole Char Sets can be added in a similar fashion, just keep to the current Schema.
 
